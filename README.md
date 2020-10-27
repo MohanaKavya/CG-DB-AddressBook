@@ -50,11 +50,18 @@ INSERT INTO address_boo VALUES (
 
 ## UC7 - Ability to understand the size of address book by City and State
 ### Count contacts By city
-```SELECT city,COUNT(city) FROM address_book GROUP BY city;```
-```SELECT COUNT(city) FROM address_book;```
+```
+SELECT city,COUNT(city) FROM address_book GROUP BY city;
+SELECT COUNT(city) FROM address_book;
+```
 ### Count contacts By state
-```SELECT state,COUNT(state) FROM address_book GROUP BY state;```
-```SELECT COUNT(state) FROM address_book;```
+```
+SELECT state,COUNT(state) FROM address_book GROUP BY state;
+SELECT COUNT(state) FROM address_book;
+```
 
+## UC8 - Ability to retrieve entries sorted alphabetically by Person’s name for a given city
+### For a given city , sort contacts in alphabetical order
+```SELECT * FROM address_book WHERE city='Hyderabad' ORDER BY firstName;```
 
 
