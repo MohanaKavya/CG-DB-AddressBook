@@ -31,4 +31,10 @@ INSERT INTO address_boo VALUES (
 ### View address book
 ```SELECT* FROM address_book;```
 
+## UC4 - Ability To Edit Existing Contact with Name
+### Editing contact for given name
+```UPDATE address_book SET First_name = 'Mohana' WHERE First_Name = 'MK';```
+### View address book
+```SELECT * FROM address_book;```
+
 
