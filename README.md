@@ -37,4 +37,10 @@ INSERT INTO address_boo VALUES (
 ### View address book
 ```SELECT * FROM address_book;```
 
+## UC5 - Ability To Delete Existing Contact with Name
+```DELETE FROM address_book WHERE First_Name='S';```
+### View address book
+```SELECT * FROM address_book;```
+
+
 
