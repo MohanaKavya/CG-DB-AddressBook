@@ -1,0 +1,69 @@
+CREATE TABLE Contact_Number (
+  email_id varchar(150) NOT NULL references contact.email_id,
+  phone_no varchar(15) NOT NULL,
+  PRIMARY KEY(email_id)
+);
+
+CREATE TABLE Address Book` (
+  `address_book_id int NOT NULL AUTO_INCREMENT` PK,
+  `address_book_name varchar(250) NOT NULL` <type>,
+  `address_book_type varchar(150) NOT NULL` <type>
+);
+
+CREATE TABLE Contact_Address (
+  email_id varchar(150) NOT NULL references contact.email_id,
+  address varchar(150) NOT NULL,
+  city varchar(150) NOT NULL,
+  state varchar(150) NOT NULL,
+  zip int NOT NULL,
+  PRIMARY KEY(email_id)
+);
+
+CREATE TABLE Contact (
+  address_book_id int NOT NULL,
+  first_name varchar(150) NOT NULL,
+  last_name varchar(150) NOT NULL,
+  email_id varchar(150) NOT NULL Primary Key,
+  foreign key(address_book_id) references address_book_dicitionary (address_book_id)
+);
+
+CREATE TABLE address_book_dictionary (
+    -> address_book_id int NOT NULL AUTO_INCREMENT Primary Key,
+    -> address_book_name varchar(250) NOT NULL,
+    -> address_book_type varchar(150) NOT NULL
+    -> );
+
+
+select * from
+(select * from contact
+inner join contact_address on contact.email_id = contact_address.email_id
+where city = 'Bhadrachalam') s1 inner join contact_number on 
+s1.email_id = contact_number.email_id;
+
+select a.phone_number  * from (select c.first_name, c.last_name, c.email_id, d.address, d.city, d.state, d.zip 
+from contact c inner join contact_address d on c.email_id = d.email_id
+where city = 'Bhadrachalam') s1 inner join contact_number a on a.email_id = s1.email_id;
+
+
+select a.address_book_name, a.address_book_type, c.first_name, c.last_name, c.email_id, p.phone_no, d.address, d.city, d.state, d.zip
+from contact c
+inner join address_book_dictionary a
+on c.address_book_id = a.address_book_id 
+inner join contact_number p
+on c.email_id = p.email_id
+inner join contact_address d 
+on c.email_id = d.email_id where d.city = 'Bhadrachalam';
+
+select a.address_book_type, count(c.first_name) as Person_Count 
+from contact c join address_book_dictionary a 
+on c.address_book_id = a.address_book_id 
+where address_book_type = 'Family';
+
+
+
+
+
+
+
+
+

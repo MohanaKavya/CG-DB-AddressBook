@@ -80,9 +80,117 @@ UPDATE address_book set Address_Book_Name='Professional' where firstName='Mohana
 ## UC10 - Ability to get number of contact persons(count by type)
 ```SELECT type,COUNT(type) FROM address_book GROUP BY type;```
 
-# UC11 - Ability to add person to both Friend and Family
+## UC11 - Ability to add person to both Friend and Family
 ```
 INSERT INTO address_book(first_Name,last_Name, Address, City, State, Zip, Phone_number, Email, Type, AddressBookName) VALUES(
     -> 'Rambabu','K','Sarapaka','Khammam','Telangana',500050,949876547,'rambabu@gmail.com','Family','Personal'),
     -> ('Rikwitha','Reddy','Lingampally','Hyderabad','AP',400097,8700849367,'pandiRik@gmail.com','Friends','Personal');
 ```
+## UC12 - Ensure all retrieve queries done
+### Creating Address Book Table
+```
+CREATE TABLE address_book_dictionary (
+    -> address_book_id int NOT NULL AUTO_INCREMENT Primary Key,
+    -> address_book_name varchar(250) NOT NULL,
+    -> address_book_type varchar(150) NOT NULL
+    -> );
+```
+### Creating Contact Table
+```
+CREATE TABLE Contact (
+  address_book_id int NOT NULL,
+  first_name varchar(150) NOT NULL,
+  last_name varchar(150) NOT NULL,
+  email_id varchar(150) NOT NULL Primary Key,
+  foreign key(address_book_id) references address_book_dicitionary (address_book_id)
+);
+```
+### Creating Address Table
+```
+CREATE TABLE Contact_Address (
+  email_id varchar(150) NOT NULL references contact.email_id,
+  address varchar(150) NOT NULL,
+  city varchar(150) NOT NULL,
+  state varchar(150) NOT NULL,
+  zip int NOT NULL,
+  PRIMARY KEY(email_id)
+);
+```
+### Creating Phone Number Table
+```CREATE TABLE Contact_Number (
+  email_id varchar(150) NOT NULL references contact.email_id,
+  phone_no varchar(15) NOT NULL,
+  PRIMARY KEY(email_id)
+);
+```
+### Inserting Data into Address Book Table
+```
+insert into address_book_dictionary (address_book_name, address_book_type)
+    -> values('Personal', 'Family'),
+    -> ('Personal', 'Friends'),
+    -> ('Professional', 'Colleagues');
+```
+### Inserting Data into COntact Table
+```
+mysql> insert into contact
+    -> values(1, 'Rambabu', 'K', 'ram1971@gmail.com'),
+    -> (1, 'Lakshmi', 'KVN', 'lakshmi@outlook.com'),
+    -> (2, 'Saaiyya', 'chai', 'saailaxmi@citi.com'),
+    -> (3, 'Deeks', 'papa', 'deeksha@gmail.com');
+```
+### Inserting data into Address Table
+```
+mysql> INSERT INTO contact_address
+    -> values('deeksha@gmail.com', 'Lingampally', 'Hyd', 'Telangana', 600604),
+    -> ('lakshmi@outlook.com', 'Visakoderu', 'Bhimavaram,', 'AP', 500804),
+    -> ('ram1971@gmail.com', 'Sarapaka', 'Bhadrachalam', 'Kerala', 700604),
+    -> ('saailaxmi@citi.com', 'Pondi', 'Chennai,', 'Tamil Nadu', 407804);
+```
+### Inserting data intp Phone Number Table
+```
+INSERT INTO contact_number
+    -> values('ram1971@gmail.com', '9705505031'),
+    -> ('ram1971@gmail.com', '9000278444'),
+    -> ('lakshmi@outlook.com', '9989456772'),
+    -> ('deeksha@gmail.com', '9999999999'),
+    -> ('saailaxmi@citi.com', '9999996666');
+```
+### Ability to Retrieve Person belonging to a City or State
+```
+select a.address_book_name, a.address_book_type, c.first_name, c.last_name, c.email_id, p.phone_no, d.address, d.city, d.state, d.zip
+from contact c
+inner join address_book_dictionary a
+on c.address_book_id = a.address_book_id 
+inner join contact_number p
+on c.email_id = p.email_id
+inner join contact_address d 
+on c.email_id = d.email_id where d.city = 'Bhadrachalam';
+```
+### Ability to understand the size of address book by City and State
+```
+SELECT city,COUNT(city) FROM contact_address GROUP BY city;
+SELECT state,COUNT(state) FROM contact_address GROUP BY state;
+```
+### Ability to retrieve entries sorted alphabetically by Person’s name for a given city
+```
+SELECT * FROM contacts WHERE city='Hyderabad' ORDER BY firstName;
+```
+select a.address_book_name, a.address_book_type, c.first_name, c.last_name, c.email_id, p.phone_no, d.address, d.city, d.state, d.zip
+from contact c
+inner join address_book_dictionary a
+on c.address_book_id = a.address_book_id 
+inner join contact_number p
+on c.email_id = p.email_id
+inner join contact_address d 
+on c.email_id = d.email_id where d.city = 'Bhadrachalam'
+order by first_name;
+```
+### Ability to get number of contact persons(count by type)
+```
+select a.address_book_type, count(c.first_name) as Person_Count 
+from contact c join address_book_dictionary a 
+on c.address_book_id = a.address_book_id 
+where address_book_type = 'Family';
+```
+
+
