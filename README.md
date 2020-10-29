@@ -158,13 +158,13 @@ INSERT INTO contact_number
 ### Ability to Retrieve Person belonging to a City or State
 ```
 select a.address_book_name, a.address_book_type, c.first_name, c.last_name, c.email_id, p.phone_no, d.address, d.city, d.state, d.zip
-from contact c
-inner join address_book_dictionary a
-on c.address_book_id = a.address_book_id 
-inner join contact_number p
-on c.email_id = p.email_id
-inner join contact_address d 
-on c.email_id = d.email_id where d.city = 'Bhadrachalam';
+    -> from contact c
+    -> inner join address_book_dictionary a
+    -> on c.address_book_id = a.address_book_id
+    -> inner join contact_number p
+    -> on c.email_id = p.email_id
+    -> inner join contact_address d
+    -> on c.email_id = d.email_id where d.city = 'Bhadrachalam';
 ```
 ### Ability to understand the size of address book by City and State
 ```
@@ -173,24 +173,22 @@ SELECT state,COUNT(state) FROM contact_address GROUP BY state;
 ```
 ### Ability to retrieve entries sorted alphabetically by Person’s name for a given city
 ```
-SELECT * FROM contacts WHERE city='Hyderabad' ORDER BY firstName;
-```
 select a.address_book_name, a.address_book_type, c.first_name, c.last_name, c.email_id, p.phone_no, d.address, d.city, d.state, d.zip
-from contact c
-inner join address_book_dictionary a
-on c.address_book_id = a.address_book_id 
-inner join contact_number p
-on c.email_id = p.email_id
-inner join contact_address d 
-on c.email_id = d.email_id where d.city = 'Bhadrachalam'
-order by first_name;
+    -> from contact c
+    -> inner join address_book_dictionary a
+    -> on c.address_book_id = a.address_book_id
+    -> inner join contact_number p
+    -> on c.email_id = p.email_id
+    -> inner join contact_address d
+    -> on c.email_id = d.email_id where d.city = 'Bhadrachalam'
+    -> order by first_name;
 ```
 ### Ability to get number of contact persons(count by type)
 ```
-select a.address_book_type, count(c.first_name) as Person_Count 
-from contact c join address_book_dictionary a 
-on c.address_book_id = a.address_book_id 
-where address_book_type = 'Family';
+select a.address_book_type, count(c.first_name) as Person_Count
+    -> from contact c join address_book_dictionary a
+    -> on c.address_book_id = a.address_book_id
+    -> where address_book_type = 'Family';
 ```
 
 
